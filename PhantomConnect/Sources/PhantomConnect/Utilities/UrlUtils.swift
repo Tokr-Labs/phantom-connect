@@ -7,7 +7,7 @@
 
 import Foundation
 
-class URLUtils {
+class UrlUtils {
     
     // ============================================================
     // === Internal Static API ====================================

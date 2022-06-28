@@ -47,7 +47,7 @@ class PhantomConnectService {
         
         try checkConfiguration()
         
-        let url = URLUtils.format("\(phantomBase)ul/\(version!)/connect", parameters: [
+        let url = UrlUtils.format("\(phantomBase)ul/\(version!)/connect", parameters: [
             "app_url": PhantomConnectService.appUrl!,
             "dapp_encryption_public_key": Base58.encode(publicKey.bytes),
             "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_connect",
@@ -79,7 +79,7 @@ class PhantomConnectService {
             throw PhantomConnectError.missingRequiredData
         }
         
-        let url = URLUtils.format("\(phantomBase)ul/\(version!)/disconnect", parameters: [
+        let url = UrlUtils.format("\(phantomBase)ul/\(version!)/disconnect", parameters: [
             "dapp_encryption_public_key": encryptionPublicKey.base58EncodedString,
             "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_disconnect",
             "nonce": nonce,
@@ -111,7 +111,7 @@ class PhantomConnectService {
             throw PhantomConnectError.missingRequiredData
         }
         
-        let url = URLUtils.format("\(phantomBase)ul/\(version!)/signAndSendTransaction", parameters: [
+        let url = UrlUtils.format("\(phantomBase)ul/\(version!)/signAndSendTransaction", parameters: [
             "dapp_encryption_public_key": encryptionPublicKey.base58EncodedString,
             "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_sign_and_send_transaction",
             "nonce": nonce,
