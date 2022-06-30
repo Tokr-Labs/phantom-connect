@@ -1,27 +1,27 @@
 //
 //  PhantomUrlHandler.swift
-//  Rhove
+//  PhantomConnect
 //
-//  Created by Eric McGary on 6/23/22.
+//  Created by Eric McGary on 6/28/22.
 //
 
 import Foundation
 import Solana
 
-class PhantomUrlHandler {
+public class PhantomUrlHandler {
     
     // ============================================================
     // === Internal Static API ====================================
     // ============================================================
-    
-    // MARK: Internal Static Properties
+        
+    // MARK: - Internal API
     
     // MARK: Internal Static Methods
     
     /// Determines whether or not the url trying to be opened is one coming from phantom
     /// - Parameter url: The incoming url
     /// - Returns: bool of whether or not the url can be handled by the phantom connect service
-    static func canHandle(url: URL) -> Bool {
+    public static func canHandle(url: URL) -> Bool {
         
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
@@ -41,10 +41,13 @@ class PhantomUrlHandler {
     }
     
     /// Handler for incoming links from phantom app
-    /// - Parameter url: incoming link url from phantom app
-    static func parse(
+    /// - Parameters:
+    ///   - url: Incoming url from phantom
+    ///   - phantomEncryptionPublicKey: Public encryption key returned from the initial phantom wallet connection.
+    ///   - dappSecretKey: Encryption secret key used during the initial connect and future sharedSecrets. This is a 32 byte private key, not a 64 byte signing secret key.
+    /// - Returns: Deeplink parsed from the passed url
+    public static func parse(
         url: URL,
-        keypair: BoxedKeypair? = nil,
         phantomEncryptionPublicKey: PublicKey? = nil,
         dappSecretKey: Data? = nil
     ) throws -> PhantomDeeplink {
@@ -77,7 +80,7 @@ class PhantomUrlHandler {
             case "phantom_connect":
                 
                 guard let phantomEncryptionPublicKey = PublicKey(string: params["phantom_encryption_public_key"] as? String ?? ""),
-                      let dappSecretKey = keypair?.secretKey,
+                      let dappSecretKey = dappSecretKey,
                       let data = params["data"] as? String,
                       let nonce = params["nonce"] as? String else {
                                         

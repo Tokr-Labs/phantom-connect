@@ -1,8 +1,8 @@
 //
 //  PhantomService.swift
-//  Rhove
+//  PhantomConnect
 //
-//  Created by Eric McGary on 6/17/22.
+//  Created by Eric McGary on 6/28/22.
 //
 
 import Foundation
@@ -10,11 +10,13 @@ import SwiftUI
 import Solana
 
 @available(iOS 10.0, *)
-class PhantomConnectService {
+public class PhantomConnectService {
     
     // ============================================================
     // === Internal Static API ====================================
     // ============================================================
+    
+    // MARK: - Internal Static API
     
     // MARK: Internal Static Properties
     
@@ -25,14 +27,14 @@ class PhantomConnectService {
     // MARK: Internal Static Methods
     
     // ============================================================
-    // === Internal API ===========================================
+    // === Public API =============================================
     // ============================================================
     
-    // MARK: - Internal API
+    // MARK: - Public API
     
-    // MARK: Internal Methods
-    
-    // MARK: Universal Link Creation
+    // MARK: Public Methods
+        
+    public init(){}
     
     /// This connection request will prompt the user for permission to share their public key, indicating that they are willing to interact further.
     /// - Parameters:
@@ -40,7 +42,7 @@ class PhantomConnectService {
     ///   - version: Version of the phatom deeplink api to use. Defaults to `v1`
     /// - SeeAlso:
     ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/connect
-    func connect(
+    public func connect(
         publicKey: Data,
         version: String? = "v1"
     ) throws {
@@ -66,7 +68,7 @@ class PhantomConnectService {
     ///   - version: Version of the phatom deeplink api to use. Defaults to `v1`
     /// - SeeAlso:
     ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/disconnect
-    func disconnect(
+    public func disconnect(
         encryptionPublicKey: PublicKey?,
         nonce: String,
         payload: String,
@@ -98,7 +100,7 @@ class PhantomConnectService {
     ///   - version: Version of the phatom deeplink api to use. Defaults to `v1`
     /// - SeeAlso:
     ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signandsendtransaction
-    func signAndSendTransaction(
+    public func signAndSendTransaction(
         encryptionPublicKey: PublicKey?,
         nonce: String,
         payload: String,
@@ -122,20 +124,26 @@ class PhantomConnectService {
         
     }
     
-    /// https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signalltransactions
-    func signAllTransactions() throws {
+    /// Not implemented yet
+    /// - SeeAlso:
+    ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signalltransactions
+    public func signAllTransactions() throws {
         try checkConfiguration()
         assertionFailure("Not implemented")
     }
     
-    /// https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signtransaction
-    func signTransaction() throws {
+    /// Not implemented yet
+    /// - SeeAlso:
+    ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signtransaction
+    public func signTransaction() throws {
         try checkConfiguration()
         assertionFailure("Not implemented")
     }
     
-    /// https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signmessage
-    func signMessage() throws {
+    /// Not implemented yet
+    /// - SeeAlso:
+    /// - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signmessage
+    public func signMessage() throws {
         try checkConfiguration()
         assertionFailure("Not implemented")
     }

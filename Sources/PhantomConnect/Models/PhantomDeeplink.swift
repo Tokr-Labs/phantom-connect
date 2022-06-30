@@ -1,8 +1,8 @@
 //
 //  PhantomDeeplink.swift
-//  Rhove
+//  PhantomConnect
 //
-//  Created by Eric McGary on 6/21/22.
+//  Created by Eric McGary on 6/28/22.
 //
 
 import Foundation

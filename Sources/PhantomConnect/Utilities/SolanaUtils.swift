@@ -1,8 +1,8 @@
 //
 //  SolanaUtils.swift
-//  Rhove
+//  PhantomConnect
 //
-//  Created by Eric McGary on 6/14/22.
+//  Created by Eric McGary on 6/28/22.
 //
 
 import Foundation
@@ -15,21 +15,13 @@ extension Data {
     }
 }
 
-public struct SigningKeypair: Codable {
-    let publicKey: PublicKey
-    let secretKey: Data
-}
-
-public struct BoxedKeypair {
-    let publicKey: PublicKey
-    let secretKey: Data
-}
-
 struct SolanaUtils {
     
     // ============================================================
     // === Internal Static API API ================================
     // ============================================================
+    
+    // MARK: - Internal Static API
     
     // MARK: Internal Static Methods
     

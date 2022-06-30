@@ -1,8 +1,8 @@
 //
 //  PhantomUtils.swift
-//  Rhove
+//  PhantomConnect
 //
-//  Created by Eric McGary on 6/25/22.
+//  Created by Eric McGary on 6/28/22.
 //
 
 import Foundation
@@ -11,11 +11,11 @@ import TweetNacl
 
 class PhantomUtils {
     
-    /// <#Description#>
+    /// Encrypt the payload for the outgoing deeplink to the phantom app
     /// - Parameters:
-    ///   - payload: <#payload description#>
-    ///   - phantomEncryptionPublicKey: <#phantomEncryptionPublicKey description#>
-    ///   - dappSecretKey: <#dappSecretKey description#>
+    ///   - payload: Dictionary payload for sending to phantom app
+    ///   - phantomEncryptionPublicKey: Public key returned form the original connection
+    ///   - dappSecretKey: Private key for
     /// - Returns: <#description#>
     static func encryptPayload(
         payload: [String: Any],
@@ -46,7 +46,7 @@ class PhantomUtils {
         
     }
     
-    /// <#Description#>
+    /// Decrypt the message payload in the incoming deeplink
     /// - Parameters:
     ///   - data: <#data description#>
     ///   - nonce: <#nonce description#>

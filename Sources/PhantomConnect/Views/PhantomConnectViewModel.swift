@@ -1,8 +1,8 @@
 //
 //  PhantomConnectViewModel.swift
-//  Rhove
+//  PhantomConnect
 //
-//  Created by Eric McGary on 6/21/22.
+//  Created by Eric McGary on 6/28/22.
 //
 
 import Foundation
@@ -15,8 +15,10 @@ public class PhantomConnectViewModel: ObservableObject {
     // === Public API =============================================
     // ============================================================
     
-    // MARK: Public Properties
+    // MARK: - Public API
     
+    // MARK: Public Properties
+   
     /// <#Description#>
     @Published public var pendingDeeplink: PhantomDeeplink?
     
@@ -32,8 +34,8 @@ public class PhantomConnectViewModel: ObservableObject {
     
     /// Constructor
     /// - Parameter phantomConnectService: <#phantomConnectService description#>
-    init(phantomConnectService: PhantomConnectService) {
-        self.phantomConnectService = phantomConnectService
+    public init(phantomConnectService: PhantomConnectService? = PhantomConnectService()) {
+        self.phantomConnectService = phantomConnectService!
     }
     
     /// This method kicks the app over to the  phantom app via a universal link created in the `PhantomConnectService`
@@ -59,25 +61,6 @@ public class PhantomConnectViewModel: ObservableObject {
         session: String?,
         dappSecretKey: Data?
     ) throws {
-        
-        /*
-         
-         const payload = {
-               session,
-             };
-             const [nonce, encryptedPayload] = encryptPayload(payload, sharedSecret);
-
-             const params = new URLSearchParams({
-               dapp_encryption_public_key: bs58.encode(dappKeyPair.publicKey),
-               nonce: bs58.encode(nonce),
-               redirect_link: onDisconnectRedirectLink,
-               payload: bs58.encode(encryptedPayload),
-             });
-
-             const url = buildUrl("disconnect", params);
-             Linking.openURL(url);
-         
-         */
         
         let (encryptedPayload, nonce) = try PhantomUtils.encryptPayload(
             payload: [
@@ -111,16 +94,6 @@ public class PhantomConnectViewModel: ObservableObject {
 
     ) throws {
         
-        /*
-         try phantomConnectViewModel.sendAndSignTransaction(
-             serializedTransaction: newValue,
-             dappEncryptionKey: viewModel.cryptoWallet?.dappEncryptionKey,
-             phantomEncryptionKey: viewModel.cryptoWallet?.phantomEncryptionKey,
-             session: viewModel.cryptoWallet?.session,
-             dappSecretKey: viewModel.cryptoWallet?.secretKey?.base58DecodedData
-         )
-         */
-        
         guard let serializedTransaction = serializedTransaction else {
             throw PhantomConnectError.serializationIssue
         }
@@ -146,10 +119,10 @@ public class PhantomConnectViewModel: ObservableObject {
     // === Private API ============================================
     // ============================================================
     
+    // MARK: - Private API
+    
     // MARK: Private Properties
     
     private let phantomConnectService: PhantomConnectService
-    
-    // MARK: Private Methods
     
 }
