@@ -5,7 +5,9 @@ import PackageDescription
 
 let package = Package(
     name: "PhantomConnect",
-    platforms: [.iOS(.v11)],
+    platforms: [
+        .iOS(SupportedPlatform.IOSVersion.v13),
+    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -16,7 +18,6 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(
-            name: "Solana",
             url: "https://github.com/ajamaica/Solana.Swift.git",
             branch: "master"
         )
@@ -26,7 +27,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "PhantomConnect",
-            dependencies: ["Solana"]
+            dependencies: [
+                .product(name: "Solana", package: "Solana.Swift")
+            ]
         ),
         .testTarget(
             name: "PhantomConnectTests",
