@@ -18,10 +18,10 @@ public struct BoxedKeypair {
     
     // MARK: Public Static Methods
     
-    /// <#Description#>
+    /// 32 byte public key
     public let publicKey: PublicKey
     
-    /// <#Description#>
+    /// 32 byte secret key
     public let secretKey: Data
     
 }

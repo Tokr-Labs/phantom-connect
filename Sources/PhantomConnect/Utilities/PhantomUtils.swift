@@ -16,7 +16,7 @@ class PhantomUtils {
     ///   - payload: Dictionary payload for sending to phantom app
     ///   - phantomEncryptionPublicKey: Public key returned form the original connection
     ///   - dappSecretKey: Private key for
-    /// - Returns: <#description#>
+    /// - Returns: Returns tuple containing the base58 encrypted payload and the nonce used during encryption
     static func encryptPayload(
         payload: [String: Any],
         phantomEncryptionPublicKey: PublicKey?,
@@ -48,11 +48,11 @@ class PhantomUtils {
     
     /// Decrypt the message payload in the incoming deeplink
     /// - Parameters:
-    ///   - data: <#data description#>
-    ///   - nonce: <#nonce description#>
-    ///   - phantomEncryptionPublicKey: <#phantomEncryptionPublicKey description#>
-    ///   - dappSecretKey: <#dappSecretKey description#>
-    /// - Returns: <#description#>
+    ///   - data: Data returned from phantom deeplink
+    ///   - nonce: nonce to use for decryption
+    ///   - phantomEncryptionPublicKey: the 32 byte public key returned from original phantom connection
+    ///   - dappSecretKey: 32 byte secret key generated for original connection
+    /// - Returns: Returns a dictionary representing the descrypted data
     static func decryptPayload(
         data: String,
         nonce: String,

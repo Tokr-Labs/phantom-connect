@@ -7,6 +7,7 @@
 
 import Foundation
 import Solana
+import UIKit
 
 @available(iOS 13.0, *)
 public class PhantomConnectViewModel: ObservableObject {
@@ -19,13 +20,10 @@ public class PhantomConnectViewModel: ObservableObject {
     
     // MARK: Public Properties
    
-    /// <#Description#>
-    @Published public var pendingDeeplink: PhantomDeeplink?
-    
-    /// <#Description#>
+    /// Initial keypair used for connecting with phantom
     public var linkingKeypair: BoxedKeypair?
     
-    /// <#Description#>
+    /// Linking key pair public key used for shared secret
     public var encryptionPublicKey: PublicKey {
         return linkingKeypair?.publicKey ?? PublicKey(bytes: PublicKey.NULL_PUBLICKEY_BYTES)!
     }
@@ -33,28 +31,30 @@ public class PhantomConnectViewModel: ObservableObject {
     // MARK: Public Methods
     
     /// Constructor
-    /// - Parameter phantomConnectService: <#phantomConnectService description#>
+    /// - Parameter phantomConnectService: Dependency injected service
     public init(phantomConnectService: PhantomConnectService? = PhantomConnectService()) {
         self.phantomConnectService = phantomConnectService!
     }
     
     /// This method kicks the app over to the  phantom app via a universal link created in the `PhantomConnectService`
-    public func connectWallet() {
+    public func connectWallet() throws {
         
-        linkingKeypair = try? SolanaUtils.generateBoxedKeypair()
+        linkingKeypair = try SolanaUtils.generateBoxedKeypair()
     
-        try? phantomConnectService.connect(
+        let url = try phantomConnectService.connect(
             publicKey: linkingKeypair?.publicKey.data ?? Data()
         )
         
+        UIApplication.shared.open(url)
+        
     }
     
-    /// <#Description#>
+    /// Generates url for disconnecting phantom wallet
     /// - Parameters:
-    ///   - dappEncryptionKey: <#dappEncryptionKey description#>
-    ///   - phantomEncryptionKey: <#phantomEncryptionKey description#>
-    ///   - session: <#session description#>
-    ///   - dappSecretKey: <#dappSecretKey description#>
+    ///   - dappEncryptionKey: The public key generated for original connection
+    ///   - phantomEncryptionKey: Public key returned from phantom during initial connection
+    ///   - session: Session returned from original connection with phantom
+    ///   - dappSecretKey: 32 Byte private key generated for initial phatom wallet connection
     public func disconnectWallet(
         dappEncryptionKey: PublicKey?,
         phantomEncryptionKey: PublicKey?,
@@ -70,28 +70,29 @@ public class PhantomConnectViewModel: ObservableObject {
             dappSecretKey: dappSecretKey
         )
         
-        try phantomConnectService.disconnect(
+        let url = try phantomConnectService.disconnect(
             encryptionPublicKey: dappEncryptionKey,
             nonce: nonce,
             payload: encryptedPayload
         )
+        
+        UIApplication.shared.open(url)
       
     }
     
-    /// <#Description#>
+    /// Creates url for sending and signing a serialized solana transaction with the phantom app
     /// - Parameters:
-    ///   - serializedTransaction: <#serializedTransaction description#>
-    ///   - dappEncryptionKey: <#dappEncryptionKey description#>
-    ///   - phantomEncryptionKey: <#phantomEncryptionKey description#>
-    ///   - session: <#session description#>
-    ///   - dappSecretKey: <#dappSecretKey description#>
+    ///   - serializedTransaction: Serialized solana transaction
+    ///   - dappEncryptionKey: The public key generated for original connection
+    ///   - phantomEncryptionKey: Public key returned from phantom during initial connection
+    ///   - session: Session returned from original connection with phantom
+    ///   - dappSecretKey: 32 Byte private key generated for initial phatom wallet connection
     public func sendAndSignTransaction(
         serializedTransaction: String?,
         dappEncryptionKey: PublicKey?,
         phantomEncryptionKey: PublicKey?,
         session: String?,
         dappSecretKey: Data?
-
     ) throws {
         
         guard let serializedTransaction = serializedTransaction else {
@@ -107,11 +108,13 @@ public class PhantomConnectViewModel: ObservableObject {
             dappSecretKey: dappSecretKey
         )
         
-        try phantomConnectService.signAndSendTransaction(
+        let url = try phantomConnectService.signAndSendTransaction(
             encryptionPublicKey: dappEncryptionKey,
             nonce: nonce,
             payload: encryptedPayload
         )
+        
+        UIApplication.shared.open(url)
         
     }
     

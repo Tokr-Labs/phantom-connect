@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 import Solana
 
 @available(iOS 10.0, *)
@@ -45,19 +44,21 @@ public class PhantomConnectService {
     public func connect(
         publicKey: Data,
         version: String? = "v1"
-    ) throws {
+    ) throws -> URL {
         
         try checkConfiguration()
         
-        let url = UrlUtils.format("\(phantomBase)ul/\(version!)/connect", parameters: [
+        guard let url = UrlUtils.format("\(phantomBase)ul/\(version!)/connect", parameters: [
             "app_url": PhantomConnectService.appUrl!,
             "dapp_encryption_public_key": Base58.encode(publicKey.bytes),
             "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_connect",
             "cluster": "\(PhantomConnectService.cluster!)"
-        ])
+        ]) else {
+            throw PhantomConnectError.invalidUrl
+        }
         
-        openUrl(url: url!)
-        
+        return url
+                
     }
     
     /// Creates a disconnect phantom universal link
@@ -73,7 +74,7 @@ public class PhantomConnectService {
         nonce: String,
         payload: String,
         version: String? = "v1"
-    ) throws {
+    ) throws -> URL {
         
         try checkConfiguration()
         
@@ -81,14 +82,16 @@ public class PhantomConnectService {
             throw PhantomConnectError.missingRequiredData
         }
         
-        let url = UrlUtils.format("\(phantomBase)ul/\(version!)/disconnect", parameters: [
+        guard let url = UrlUtils.format("\(phantomBase)ul/\(version!)/disconnect", parameters: [
             "dapp_encryption_public_key": encryptionPublicKey.base58EncodedString,
             "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_disconnect",
             "nonce": nonce,
             "payload": payload
-        ])
-        
-        openUrl(url: url!)
+        ]) else {
+            throw PhantomConnectError.invalidUrl
+        }
+         
+        return url
         
     }
     
@@ -105,7 +108,7 @@ public class PhantomConnectService {
         nonce: String,
         payload: String,
         version: String? = "v1"
-    ) throws {
+    ) throws -> URL {
         
         try checkConfiguration()
         
@@ -113,39 +116,44 @@ public class PhantomConnectService {
             throw PhantomConnectError.missingRequiredData
         }
         
-        let url = UrlUtils.format("\(phantomBase)ul/\(version!)/signAndSendTransaction", parameters: [
+        guard let url = UrlUtils.format("\(phantomBase)ul/\(version!)/signAndSendTransaction", parameters: [
             "dapp_encryption_public_key": encryptionPublicKey.base58EncodedString,
             "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_sign_and_send_transaction",
             "nonce": nonce,
             "payload": payload
-        ])
+        ]) else {
+            throw PhantomConnectError.invalidUrl
+        }
         
-        openUrl(url: url!)
+        return url
         
     }
     
     /// Not implemented yet
     /// - SeeAlso:
     ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signalltransactions
-    public func signAllTransactions() throws {
+    public func signAllTransactions() throws -> URL? {
         try checkConfiguration()
         assertionFailure("Not implemented")
+        return nil
     }
     
     /// Not implemented yet
     /// - SeeAlso:
     ///   - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signtransaction
-    public func signTransaction() throws {
+    public func signTransaction() throws -> URL? {
         try checkConfiguration()
         assertionFailure("Not implemented")
+        return nil
     }
     
     /// Not implemented yet
     /// - SeeAlso:
     /// - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signmessage
-    public func signMessage() throws {
+    public func signMessage() throws -> URL? {
         try checkConfiguration()
         assertionFailure("Not implemented")
+        return nil
     }
     
     // ============================================================
@@ -159,11 +167,6 @@ public class PhantomConnectService {
     private let phantomBase = "https://phantom.app/"
     
     // MARK: Private Methods
-    
-    private func openUrl(url: URL) {
-        print("Opening Phantom URL: '\(url.absoluteString)' ...")
-        UIApplication.shared.open(url)
-    }
     
     private func checkConfiguration() throws {
         

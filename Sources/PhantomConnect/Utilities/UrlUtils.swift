@@ -17,11 +17,11 @@ class UrlUtils {
 
     // MARK: Internal Static Methods
     
-    /// <#Description#>
+    /// Helper method for formatting urls to be opened in phantom app
     /// - Parameters:
-    ///   - path: <#path description#>
-    ///   - parameters: <#parameters description#>
-    /// - Returns: <#description#>
+    ///   - path: base path of url
+    ///   - parameters: parameters to attach to the url query string
+    /// - Returns: URL
     static func format(_ path: String, parameters: [String: String]?) -> URL? {
         
         var queryItems: [URLQueryItem] = []

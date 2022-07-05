@@ -12,5 +12,6 @@ enum PhantomConnectError: Error {
     case missingRequiredData
     case serializationIssue
     case notConfigured
+    case invalidUrl
     
 }
