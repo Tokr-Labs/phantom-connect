@@ -23,8 +23,12 @@ class PhantomUtils {
         dappSecretKey: Data?
     ) throws -> (payload: String, nonce: String) {
         
-        guard let phantomEncryptionPublicKey = phantomEncryptionPublicKey, let dappSecretKey = dappSecretKey else {
-            throw PhantomConnectError.missingRequiredData
+        guard let dappSecretKey = dappSecretKey else {
+            throw PhantomConnectError.invalidDappSecretKey
+        }
+        
+        guard let phantomEncryptionPublicKey = phantomEncryptionPublicKey else {
+            throw PhantomConnectError.invalidEncryptionPublicKey
         }
 
         let sharedSecret = try TweetNacl.NaclBox.before(
@@ -60,8 +64,12 @@ class PhantomUtils {
         dappSecretKey: Data?
     ) throws -> [String: String]? {
 
-        guard let phantomEncryptionPublicKey = phantomEncryptionPublicKey, let dappSecretKey = dappSecretKey else {
-            throw PhantomConnectError.missingRequiredData
+        guard let dappSecretKey = dappSecretKey else {
+            throw PhantomConnectError.invalidDappSecretKey
+        }
+        
+        guard let phantomEncryptionPublicKey = phantomEncryptionPublicKey else {
+            throw PhantomConnectError.invalidEncryptionPublicKey
         }
         
         let sharedSecret = try TweetNacl.NaclBox.before(

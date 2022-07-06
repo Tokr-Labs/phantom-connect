@@ -79,7 +79,7 @@ public class PhantomConnectService {
         try checkConfiguration()
         
         guard let encryptionPublicKey = encryptionPublicKey else {
-            throw PhantomConnectError.missingRequiredData
+            throw PhantomConnectError.invalidEncryptionPublicKey
         }
         
         guard let url = UrlUtils.format("\(phantomBase)ul/\(version!)/disconnect", parameters: [
@@ -113,7 +113,7 @@ public class PhantomConnectService {
         try checkConfiguration()
         
         guard let encryptionPublicKey = encryptionPublicKey else {
-            throw PhantomConnectError.missingRequiredData
+            throw PhantomConnectError.invalidEncryptionPublicKey
         }
         
         guard let url = UrlUtils.format("\(phantomBase)ul/\(version!)/signAndSendTransaction", parameters: [

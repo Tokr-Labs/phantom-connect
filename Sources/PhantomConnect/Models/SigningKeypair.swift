@@ -19,9 +19,9 @@ public struct SigningKeypair: Codable {
     // MARK: Public Static Methods
     
     /// 32 byte public key
-    let publicKey: PublicKey
+    public let publicKey: PublicKey
     
     /// 64 byte secret key
-    let secretKey: Data
+    public let secretKey: Data
     
 }

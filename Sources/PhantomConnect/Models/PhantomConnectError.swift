@@ -7,9 +7,10 @@
 
 import Foundation
 
-enum PhantomConnectError: Error {
+public enum PhantomConnectError: Error {
     
-    case missingRequiredData
+    case invalidEncryptionPublicKey
+    case invalidDappSecretKey
     case serializationIssue
     case notConfigured
     case invalidUrl
