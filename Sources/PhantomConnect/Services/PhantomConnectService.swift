@@ -174,7 +174,7 @@ public class PhantomConnectService {
             PhantomConnectService.cluster == nil ||
             PhantomConnectService.redirectUrl == nil {
             
-            throw PhantomConnectError.notConfigured
+            throw PhantomConnectError.invalidConfiguration
             
         }
         

@@ -96,7 +96,7 @@ public class PhantomConnectViewModel: ObservableObject {
     ) throws {
         
         guard let serializedTransaction = serializedTransaction else {
-            throw PhantomConnectError.serializationIssue
+            throw PhantomConnectError.invalidSerializedTransaction
         }
         
         let (encryptedPayload, nonce) = try PhantomUtils.encryptPayload(
