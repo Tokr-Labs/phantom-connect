@@ -20,10 +20,10 @@ public class PhantomConnectViewModel: ObservableObject {
     
     // MARK: Public Properties
    
-    /// Initial keypair used for connecting with phantom
+    /// Initial keypair used for connecting with phantom. This property should only be counted on being present during the app session where connection was made, unless manually set.
     public var linkingKeypair: BoxedKeypair?
     
-    /// Linking key pair public key used for shared secret
+    /// Linking key pair public key used for shared secret. This property should only be counted on being present during the app session where connection was made, unless manually set.
     public var encryptionPublicKey: PublicKey {
         return linkingKeypair?.publicKey ?? PublicKey(bytes: PublicKey.NULL_PUBLICKEY_BYTES)!
     }

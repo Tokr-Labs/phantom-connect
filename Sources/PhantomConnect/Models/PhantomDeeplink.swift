@@ -11,7 +11,7 @@ import Solana
 public enum PhantomDeeplink {
     
     case connect(publicKey: PublicKey?, phantomEncryptionPublicKey: PublicKey?, session: String?, error: Error?)
-    case disconnect(encryptionPublicKey: PublicKey?, error: Error?)
+    case disconnect(error: Error?)
     case signTransaction
     case signAllTransactions
     case signAndSendTransaction(signature: String?, error: Error?)

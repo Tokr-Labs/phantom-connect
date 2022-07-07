@@ -1,9 +1,16 @@
+//
+//  PhantomUtilsTests.swift
+//
+//
+//  Created by Eric McGary on 7/7/22.
+//
+
 import XCTest
 @testable import PhantomConnect
 
 final class PhantomConnectTests: XCTestCase {
     
-    func testExample() throws {
+    func testConfiguration() throws {
             
         PhantomConnect.configure(appUrl: "url", cluster: "cluster", redirectUrl: "redirect")
         

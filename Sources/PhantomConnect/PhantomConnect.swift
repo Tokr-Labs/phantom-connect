@@ -5,8 +5,6 @@
 //  Created by Eric McGary on 6/28/22.
 //
 
-//typealias PhantomConnect.BoxedKeypair = BoxedKeypair
-
 public struct PhantomConnect {
 
     

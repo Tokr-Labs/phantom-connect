@@ -9,7 +9,7 @@ import Foundation
 import Solana
 import TweetNacl
 
-class PhantomUtils {
+public class PhantomUtils {
     
     /// Encrypt the payload for the outgoing deeplink to the phantom app
     /// - Parameters:
@@ -17,7 +17,7 @@ class PhantomUtils {
     ///   - phantomEncryptionPublicKey: Public key returned form the original connection
     ///   - dappSecretKey: Private key for
     /// - Returns: Returns tuple containing the base58 encrypted payload and the nonce used during encryption
-    static func encryptPayload(
+    public static func encryptPayload(
         payload: [String: Any],
         phantomEncryptionPublicKey: PublicKey?,
         dappSecretKey: Data?
@@ -36,7 +36,7 @@ class PhantomUtils {
             secretKey: dappSecretKey
         )
         
-        let nonce = try TweetNacl.NaclUtil.secureRandomData(count: 24)
+        let nonce = try SolanaUtils.generateNonce()
         
         let payload = try JSONSerialization.data(withJSONObject: payload, options: [])
         

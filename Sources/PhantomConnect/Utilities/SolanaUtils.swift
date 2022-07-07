@@ -25,6 +25,14 @@ struct SolanaUtils {
     
     // MARK: Internal Static Methods
     
+    /// Generates a unique 24 bytes of data
+    /// - Returns: data
+    static func generateNonce() throws -> Data {
+
+        return try TweetNacl.NaclUtil.secureRandomData(count: 24)
+        
+    }
+    
     /// Generates a keypair whos secret is combined with the public key
     /// - Returns: keypair
     static func generateSigningKeypair() throws -> SigningKeypair {

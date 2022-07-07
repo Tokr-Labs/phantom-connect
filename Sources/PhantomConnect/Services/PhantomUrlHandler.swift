@@ -66,13 +66,7 @@ public class PhantomUrlHandler {
         
         if components.queryItems?[0].name == "errorCode" {
                         
-            error = NSError(
-                domain: "phantom-url-handler",
-                code: Int(components.queryItems?[0].value ?? "0") ?? 0,
-                userInfo: [
-                    NSLocalizedDescriptionKey: components.queryItems?[1].value ?? "Unknown Error"
-                ]
-            )
+            error = PhantomConnectError.invalidUrl
             
         }
         
@@ -113,7 +107,6 @@ public class PhantomUrlHandler {
                 
             case "phantom_disconnect":
                 return .disconnect(
-                    encryptionPublicKey: nil,
                     error: error
                 )
                 
