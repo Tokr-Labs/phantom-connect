@@ -22,7 +22,7 @@ public struct OnWalletConnect: ViewModifier {
     // MARK: Public Properties
     
     public var viewModel: PhantomConnectViewModel
-    public var action: OnWalletConnectAction
+    public var perform: OnWalletConnectAction
     
     // MARK: Public Methods
     
@@ -41,7 +41,7 @@ public struct OnWalletConnect: ViewModifier {
                         switch deeplink {
                                 
                             case .connect(let publicKey, let phantomEncryptionPublicKey, let session, let error):
-                                action(publicKey, phantomEncryptionPublicKey, session, error)
+                                perform(publicKey, phantomEncryptionPublicKey, session, error)
                                 
                             default:
                                 break
@@ -61,10 +61,10 @@ extension View {
     
     public func onWalletConnect(
         viewModel: PhantomConnectViewModel,
-        action: @escaping OnWalletConnectAction
+        perform: @escaping OnWalletConnectAction
     ) -> some View {
         
-        self.modifier(OnWalletConnect(viewModel: viewModel, action: action))
+        self.modifier(OnWalletConnect(viewModel: viewModel, perform: perform))
         
     }
 }

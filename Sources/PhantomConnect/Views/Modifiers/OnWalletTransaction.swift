@@ -21,8 +21,8 @@ public struct OnWalletTransaction: ViewModifier {
     
     // MARK: Internal Properties
     
-    public var encryptionKey: PublicKey
-    public var secretKey: Data
+    public var encryptionKey: PublicKey?
+    public var secretKey: Data?
     public var action: OnWalletTransactionAction
     
     // MARK: Internal Methods
@@ -62,8 +62,8 @@ public struct OnWalletTransaction: ViewModifier {
 extension View {
     
     public func onWalletTransaction(
-        phantomEncryptionPublicKey: PublicKey,
-        dappEncryptionSecretKey: Data,
+        phantomEncryptionPublicKey: PublicKey?,
+        dappEncryptionSecretKey: Data?,
         action: @escaping OnWalletTransactionAction
     ) -> some View {
         
