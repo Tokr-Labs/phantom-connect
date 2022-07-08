@@ -2,7 +2,7 @@
 This package aims to create a simple, uniform way of using the [Phantom Deeplinking](https://phantom.app/blog/introducing-phantom-deeplinks) for native iOS projects.
 
 ## Requirements
-- iOS 13.0+ / macOS 10.13+
+- iOS 13.0+ / macOS 10.15+
 - Swift 5.3+
 
 ## Installation
