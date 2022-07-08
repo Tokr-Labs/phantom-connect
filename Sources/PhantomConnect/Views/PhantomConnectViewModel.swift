@@ -12,7 +12,7 @@ import Solana
 import UIKit
 #endif
 
-@available(iOS 13.0, *)
+@available(iOS 13.0, macOS 10.15, *)
 public class PhantomConnectViewModel: ObservableObject {
     
     // ============================================================
@@ -48,7 +48,9 @@ public class PhantomConnectViewModel: ObservableObject {
             publicKey: linkingKeypair?.publicKey.data ?? Data()
         )
         
+#if os(iOS)
         UIApplication.shared.open(url)
+#endif
         
     }
     
@@ -79,8 +81,10 @@ public class PhantomConnectViewModel: ObservableObject {
             payload: encryptedPayload
         )
         
+#if os(iOS)
         UIApplication.shared.open(url)
-      
+#endif
+        
     }
     
     /// Creates url for sending and signing a serialized solana transaction with the phantom app
@@ -117,7 +121,9 @@ public class PhantomConnectViewModel: ObservableObject {
             payload: encryptedPayload
         )
         
+#if os(iOS)
         UIApplication.shared.open(url)
+#endif
         
     }
     
