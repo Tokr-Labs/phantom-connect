@@ -48,7 +48,9 @@ PhantomConnect.configure(
 
 ### Usage
 
-This framework was built with SwiftUI in mind, but that does not mean it cannot be used elsewhere. The following are code snippets that assume SwiftUI.
+This framework was built with SwiftUI in mind, but that does not mean it cannot be used elsewhere. The following are code snippets that assume SwiftUI. 
+
+The example application in this repository stores all wallet information, including the dapp secret key used in creating the shared secret for encryption and decryption, in memory. For a real-world implementation you would want to store this information in a local keychain or on a remote server. *NOTE* that ideally the dapp encryption secret key would be saved behind some form of authentication within the app keychain and never leave the device.
 
 #### Connect
 
@@ -71,29 +73,11 @@ Button {
     Text("Connect with Phantom")
     
 }
-    .onOpenURL { url in
-        
-        // check to make sure this is a Phantom produced incoming url
-        if PhantomUrlHandler.canHandle(url: url) {
-            
-            // parse the incoming url to determine what type of PhantomDeeplink is incoming
-            if let deeplink = try? PhantomUrlHandler.parse(
-                url: url,
-                dappSecretKey: phantomConnectViewModel.linkingKeypair?.secretKey
-            ) {
-                
-                switch deeplink {
-                    case .connect(let publicKey, let phantomEncryptionPublicKey, let session, let error):
-                        // phantom wallet connected
-                        
-                    default:
-                        break
-                }
-                
-            }
-            
-        }
-    }
+.onWalletConnect(viewModel: phantomConnectViewModel) { publicKey, phantomEncryptionPublicKey, session, error in
+    
+   // wallet connected
+    
+}
 
 ...
 
@@ -125,30 +109,11 @@ Button {
     Text("Disconnect Wallet")
     
 }
-    .onOpenURL { url in
+.onWalletDisconnect { error in
     
-        // check to make sure this is a Phantom produced incoming url
-        if PhantomUrlHandler.canHandle(url: url) {
-            
-            // parse the incoming url to determine what type of PhantomDeeplink is incoming
-            if let deeplink = try? PhantomUrlHandler.parse(
-                url: url,
-                dappSecretKey: <DAPP_ENCRYPTION_SECRET_KEY>
-            ) {
-                
-                switch deeplink {
-                    case .disconnect(let error):
-                        // phantom wallet disconnected
-                        
-                    default:
-                        break
-                }
-                
-            }
-            
-        }
-        
-    }
+    // wallet disconnected
+    
+}
 
 ...
 
@@ -181,32 +146,16 @@ Button {
     Text("Disconnect Wallet")
     
 }
-    .onOpenURL { url in
-        
-        // check to make sure this is a Phantom produced incoming url
-        if PhantomUrlHandler.canHandle(url: url) {
-            
-            // parse the incoming url to determine what type of PhantomDeeplink is incoming
-            if let deeplink = try? PhantomUrlHandler.parse(
-                url: url,
-                phantomEncryptionPublicKey: <PHANTOM_ENCRYPTION_PUBLIC_KEY>,
-                dappSecretKey: <DAPP_ENCRYPTION_SECRET_KEY>
-            ) {
-                
-                switch deeplink { 
-                    case .signAndSendTransaction(let signature, let error):
-                        // transaction sent
-                        
-                    default:
-                        break
-                }
-                
-            }
-            
-        }
-        
-    }
+.onWalletTransaction(
+    phantomEncryptionPublicKey: <PHANTOM_ENCRYPTION_PUBLIC_KEY>,
+    dappEncryptionSecretKey: <DAPP_ENCRYPTION_SECRET_KEY>
+) { signature, error in
+    
+    // handle transaction response
+    
+}
 
 ...
 
 ```
+
