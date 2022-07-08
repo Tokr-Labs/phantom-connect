@@ -58,7 +58,7 @@ public struct OnWalletTransaction: ViewModifier {
     
 }
 
-@available(iOS 14.0, *)
+
 extension View {
     
     public func onWalletTransaction(
@@ -67,6 +67,7 @@ extension View {
         action: @escaping OnWalletTransactionAction
     ) -> some View {
         
+        @available(iOS 14.0, *)
         self.modifier(
             OnWalletTransaction(
                 encryptionKey: phantomEncryptionPublicKey,
