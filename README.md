@@ -30,7 +30,7 @@ If you encounter any problem or have a question on adding the package to an Xcod
 - Deeplink enumeration that aligns with the `PhantomConnectService.swift` methods.
 
 `PhantomConnectViewModel.swift`
-- This helper class is an ObservableObject that contains business logic used to create, encrypt and open universal links in the phantom wallet. If you can't or don't want to use the view model in a manner suitable to the [SwiftUI MVVM pattern](https://www.hackingwithswift.com/books/ios-swiftui/introducing-mvvm-into-your-swiftui-project), you can use the `SolanaUtils.swift` and `PhantomConnectService.swift` files directly.   
+- This helper class is an ObservableObject that contains business logic used to create, encrypt and open universal links in the phantom wallet. If you can't or don't want to use the view model in a manner suitable to the [SwiftUI MVVM pattern](https://www.hackingwithswift.com/books/ios-swiftui/introducing-mvvm-into-your-swiftui-project), you can use the `PhantomUtils.swift` and `PhantomConnectService.swift` files directly.   
 
 ## Setup
 
