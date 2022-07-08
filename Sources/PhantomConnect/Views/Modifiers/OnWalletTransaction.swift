@@ -23,7 +23,7 @@ public struct OnWalletTransaction: ViewModifier {
     
     public var encryptionKey: PublicKey?
     public var secretKey: Data?
-    public var action: OnWalletTransactionAction
+    public var perform: OnWalletTransactionAction
     
     // MARK: Internal Methods
     
@@ -43,7 +43,7 @@ public struct OnWalletTransaction: ViewModifier {
                         switch deeplink {
                                 
                             case .signAndSendTransaction(let signature, let error):
-                                action(signature, error)
+                                perform(signature, error)
                                 
                             default:
                                 break
@@ -58,21 +58,20 @@ public struct OnWalletTransaction: ViewModifier {
     
 }
 
-
+@available(iOS 14.0, *)
 extension View {
     
     public func onWalletTransaction(
         phantomEncryptionPublicKey: PublicKey?,
         dappEncryptionSecretKey: Data?,
-        action: @escaping OnWalletTransactionAction
+        perform: @escaping OnWalletTransactionAction
     ) -> some View {
         
-        @available(iOS 14.0, macOS 11, *)
         self.modifier(
             OnWalletTransaction(
                 encryptionKey: phantomEncryptionPublicKey,
                 secretKey: dappEncryptionSecretKey,
-                action: action
+                perform: perform
             )
         )
         
