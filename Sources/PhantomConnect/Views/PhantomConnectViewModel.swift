@@ -7,7 +7,10 @@
 
 import Foundation
 import Solana
+
+#if os(iOS)
 import UIKit
+#endif
 
 @available(iOS 13.0, *)
 public class PhantomConnectViewModel: ObservableObject {
