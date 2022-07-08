@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PhantomConnect",
-    platforms: [.iOS(.v11),
+    platforms: [.iOS(.v11)],
     products: [
         .library(
             name: "PhantomConnect",
