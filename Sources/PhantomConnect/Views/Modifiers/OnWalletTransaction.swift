@@ -10,7 +10,7 @@ import Solana
 
 public typealias OnWalletTransactionAction = (_ signature:String?, _ error: Error?) -> Void
 
-@available(iOS 14.0, *)
+@available(iOS 14.0, macOS 10.15, *)
 public struct OnWalletTransaction: ViewModifier {
     
     // ============================================================
@@ -67,7 +67,7 @@ extension View {
         action: @escaping OnWalletTransactionAction
     ) -> some View {
         
-        @available(iOS 14.0, *)
+        @available(iOS 14.0, macOS 10.15, *)
         self.modifier(
             OnWalletTransaction(
                 encryptionKey: phantomEncryptionPublicKey,
