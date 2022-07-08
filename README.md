@@ -54,6 +54,8 @@ The example application in this repository stores all wallet information, includ
 
 #### Connect
 
+![connect](https://github.com/Tokr-Labs/phantom-connect/blob/feature/readme-images/Assets/connect.gif?raw=true)
+
 ```
 
 import PhantomConnect
@@ -84,6 +86,8 @@ Button {
 ```
 
 #### Disconnect
+
+![connect](https://github.com/Tokr-Labs/phantom-connect/blob/feature/readme-images/Assets/disconnect.gif?raw=true)
 
 ```
 
@@ -120,6 +124,8 @@ Button {
 ```
 
 #### Send And Sign Transaction
+
+![connect](https://github.com/Tokr-Labs/phantom-connect/blob/feature/readme-images/Assets/transaction.gif?raw=true)
 
 ```
 
