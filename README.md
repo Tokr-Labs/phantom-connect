@@ -54,7 +54,7 @@ The example application in this repository stores all wallet information, includ
 
 #### Connect
 
-<img src="https://github.com/Tokr-Labs/phantom-connect/blob/feature/readme-images/Assets/connect.gif" alt="connect" width="250"/>
+<img src="https://github.com/Tokr-Labs/phantom-connect/blob/aa94d0b68cbbfb5f131095d3419a6f1e34084191/Assets/connect.gif" alt="connect" width="250"/>
 
 ```
 
@@ -87,7 +87,7 @@ Button {
 
 #### Disconnect
 
-<img src="https://github.com/Tokr-Labs/phantom-connect/blob/feature/readme-images/Assets/disconnect.gif" alt="connect" width="250"/>
+<img src="https://github.com/Tokr-Labs/phantom-connect/blob/aa94d0b68cbbfb5f131095d3419a6f1e34084191/Assets/disconnect.gif" alt="connect" width="250"/>
 
 ```
 
@@ -125,7 +125,7 @@ Button {
 
 #### Send And Sign Transaction
 
-<img src="https://github.com/Tokr-Labs/phantom-connect/blob/feature/readme-images/Assets/transaction.gif" alt="connect" width="250"/>
+<img src="https://github.com/Tokr-Labs/phantom-connect/blob/aa94d0b68cbbfb5f131095d3419a6f1e34084191/Assets/transaction.gif" alt="connect" width="250"/>
 
 ```
 
