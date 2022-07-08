@@ -27,7 +27,7 @@ struct ContentView: View {
             .onAppear {
                 
                 PhantomConnect.configure(
-                    appUrl: "https://rhove.com",
+                    appUrl: "https://example.com",
                     cluster: "devnet",
                     redirectUrl: "example://"
                 )

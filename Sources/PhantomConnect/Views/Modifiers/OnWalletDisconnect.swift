@@ -54,10 +54,9 @@ public struct OnWalletDisconnect: ViewModifier {
     
 }
 
-
+@available(iOS 14.0, *)
 extension View {
     
-    @available(iOS 14.0, macOS 11, *)
     public func onWalletDisconnect(
         action: @escaping OnWalletDisconnectAction
     ) -> some View {

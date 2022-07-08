@@ -41,7 +41,7 @@ public struct OnWalletConnect: ViewModifier {
                         switch deeplink {
                                 
                             case .connect(let publicKey, let phantomEncryptionPublicKey, let session, let error):
-                                action(publicKey, phantomEncryptionPublicKey, session, error)
+                                perform(publicKey, phantomEncryptionPublicKey, session, error)
                                 
                             default:
                                 break
@@ -56,10 +56,9 @@ public struct OnWalletConnect: ViewModifier {
     
 }
 
-
+@available(iOS 14.0, *)
 extension View {
     
-    @available(iOS 14.0, macOS 11, *)
     public func onWalletConnect(
         viewModel: PhantomConnectViewModel,
         perform: @escaping OnWalletConnectAction
