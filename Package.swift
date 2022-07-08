@@ -26,13 +26,15 @@ let package = Package(
                     name: "Solana",
                     package: "Solana.Swift"
                 )
-            ]
+            ],
+            exclude: ["PhantomConnectExample/"]
         ),
         .testTarget(
             name: "PhantomConnectTests",
             dependencies: [
                 "PhantomConnect"
-            ]
+            ],
+            exclude: ["PhantomConnectExample/"]
         ),
     ]
 )
