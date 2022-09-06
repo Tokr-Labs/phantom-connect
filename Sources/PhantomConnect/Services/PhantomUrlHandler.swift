@@ -65,9 +65,13 @@ public class PhantomUrlHandler {
         var error: Error?
         
         if components.queryItems?[0].name == "errorCode" {
-                        
-            error = PhantomConnectError.invalidUrl
-            
+            if components.queryItems?[0].value == "-32603" {
+                //errorCode=-32603&errorMessage=Missing+shared+secret
+                error = PhantomConnectError.missingSharedSecret
+            }
+            else {
+                error = PhantomConnectError.invalidUrl
+            }
         }
         
         switch host {
