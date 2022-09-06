@@ -84,13 +84,36 @@ struct ContentView: View {
                 
                 createTransaction { serializedTransaction in
                     
-                    try? viewModel.sendAndSignTransaction(
-                        serializedTransaction: serializedTransaction,
-                        dappEncryptionKey: viewModel.linkingKeypair?.publicKey,
-                        phantomEncryptionKey: phantomEncryptionKey,
-                        session: session,
-                        dappSecretKey: viewModel.linkingKeypair?.secretKey
-                    )
+                    do {
+                        try viewModel.sendAndSignTransaction(
+                            serializedTransaction: serializedTransaction,
+                            dappEncryptionKey: viewModel.linkingKeypair?.publicKey,
+                            phantomEncryptionKey: phantomEncryptionKey,
+                            session: session,
+                            dappSecretKey: viewModel.linkingKeypair?.secretKey
+                        )
+                    }
+                    catch PhantomConnectError.invalidConfiguration{
+                        print("Error:", PhantomConnectError.invalidConfiguration)
+                    }
+                    catch PhantomConnectError.invalidDappSecretKey{
+                        print("Error:", PhantomConnectError.invalidDappSecretKey)
+                    }
+                    catch PhantomConnectError.invalidEncryptionPublicKey{
+                        print("Error:", PhantomConnectError.invalidEncryptionPublicKey)
+                    }
+                    catch PhantomConnectError.invalidSerializedTransaction{
+                        print("Error:", PhantomConnectError.invalidSerializedTransaction)
+                    }
+                    catch PhantomConnectError.invalidUrl{
+                        print("Error:", PhantomConnectError.invalidUrl)
+                    }
+                    catch PhantomConnectError.missingSharedSecret{
+                        print("Error:", PhantomConnectError.missingSharedSecret.description)
+                    }
+                    catch {
+                        print("Error: Unknown")
+                    }
                     
                 }
                 

@@ -14,6 +14,7 @@ public enum PhantomConnectError: Error {
     case invalidSerializedTransaction
     case invalidConfiguration
     case invalidUrl
+    case missingSharedSecret
     
 }
 
@@ -36,6 +37,9 @@ extension PhantomConnectError: CustomStringConvertible {
                 
             case .invalidUrl:
                 return "Invalid URL"
+            
+            case .missingSharedSecret:
+                return "Phantom says 'Missing shared secret'. Something went wrong within Phantom. Either selected not correct wallet in phantom or session expired by phantom. Try to disconnect and connect to Phantom again."
                 
         }
         
@@ -76,6 +80,12 @@ extension PhantomConnectError: LocalizedError {
                 return NSLocalizedString(
                     "Invalid URL",
                     comment: "Invalid URL"
+                )
+            
+            case .missingSharedSecret:
+                return NSLocalizedString(
+                    "Phantom says 'Missing shared secret'. Something went wrong within Phantom. Either selected not correct wallet in phantom or session expired by phantom.",
+                    comment: "Missing Shared Secret"
                 )
                 
         }
