@@ -7,12 +7,12 @@
 
 import Foundation
 import Solana
-
+import SwiftUI
 #if os(iOS)
 import UIKit
 #endif
 
-@available(iOS 13.0, macOS 10.15, *)
+@available(iOS 14.0, macOS 10.15, *)
 public class PhantomConnectViewModel: ObservableObject {
     
     // ============================================================
@@ -22,7 +22,13 @@ public class PhantomConnectViewModel: ObservableObject {
     // MARK: - Public API
     
     // MARK: Public Properties
-   
+
+    /// Saving keys in appstorage(user defaults).
+    /// THIS IS NOT SECURE! FOR DEMO ONLY!
+    /// Keychain can be used as a ssecure storage
+    @AppStorage("k_dap_secret_key") var secretKey: Data?
+    @AppStorage("k_encryption_pub_key") var publicKey: String?
+    
     /// Initial keypair used for connecting with phantom. This property should only be counted on being present during the app session where connection was made, unless manually set.
     public var linkingKeypair: BoxedKeypair?
     
@@ -37,12 +43,26 @@ public class PhantomConnectViewModel: ObservableObject {
     /// - Parameter phantomConnectService: Dependency injected service
     public init(phantomConnectService: PhantomConnectService? = PhantomConnectService()) {
         self.phantomConnectService = phantomConnectService!
+        
+        if let dapSecKey = self.secretKey, let pubKey = self.publicKey {
+            self.linkingKeypair = BoxedKeypair(
+                publicKey: PublicKey(string: pubKey) ?? PublicKey(bytes: PublicKey.NULL_PUBLICKEY_BYTES)!,
+                secretKey: dapSecKey
+            )
+        }
     }
     
     /// This method kicks the app over to the  phantom app via a universal link created in the `PhantomConnectService`
     public func connectWallet() throws {
         
         linkingKeypair = try SolanaUtils.generateBoxedKeypair()
+        
+        /// Saving keys in appstorage(user defaults).
+        /// THIS IS NOT SECURE! FOR DEMO ONLY!
+        /// Keychain can be used as a ssecure storage
+        self.secretKey = linkingKeypair?.secretKey
+        self.publicKey = linkingKeypair?.publicKey.base58EncodedString
+        
     
         let url = try phantomConnectService.connect(
             publicKey: linkingKeypair?.publicKey.data ?? Data()

@@ -8,16 +8,24 @@
 import SwiftUI
 import Solana
 import PhantomConnect
+import Foundation
 
 struct ContentView: View {
     
     @StateObject var viewModel = PhantomConnectViewModel()
     
-    @State var walletConnected = false
+    /// Saving keys in appstorage(user defaults).
+    /// THIS IS NOT SECURE! FOR DEMO ONLY!
+    /// Keychain can be used as a ssecure storage
+    @AppStorage("k_wallet_connected") var walletConnected = false
+    @AppStorage("k_wallet_public_key") var walletPublicKeyB58: String?
+    @AppStorage("k_wallet_phantom_encryption_key") var phantomEncryptionKeyB58: String?
     @State var walletPublicKey: PublicKey?
     @State var phantomEncryptionKey: PublicKey?
-    @State var session: String?
+    @AppStorage("k_wallet_phantom_session") var session: String?
     @State var transactionSignature: String?
+    
+    @State var balance_Sol: Double?
     
     var body: some View {
         
@@ -32,6 +40,12 @@ struct ContentView: View {
                     redirectUrl: "example://"
                 )
                 
+                
+                if let pubkey = self.walletPublicKeyB58, let enckey = self.phantomEncryptionKeyB58  {
+                    self.walletPublicKey = PublicKey(string: pubkey)
+                    self.phantomEncryptionKey = PublicKey(string: enckey)
+                }
+                self.getWalletAndBalance()
             }
         
     }
@@ -60,6 +74,11 @@ struct ContentView: View {
             self.phantomEncryptionKey = phantomEncryptionPublicKey
             self.session = session
             
+            self.walletPublicKeyB58 = self.walletPublicKey?.base58EncodedString
+            self.phantomEncryptionKeyB58 = self.phantomEncryptionKey?.base58EncodedString
+            
+            self.getWalletAndBalance()
+            
             walletConnected.toggle()
             
         }
@@ -68,10 +87,14 @@ struct ContentView: View {
     
     var connectedContent: some View {
         
-        VStack(spacing: 24) {
+        VStack(spacing: 30) {
+            
+            
+            Text("Balance: \(self.balance_Sol ?? 0) SOL")
+            
             
             VStack {
-                Text("Wallet Public Key:")
+                Text("Wallet:")
                 Text(walletPublicKey?.base58EncodedString ?? "--")
             }
             
@@ -125,10 +148,11 @@ struct ContentView: View {
             .onWalletTransaction(
                 phantomEncryptionPublicKey: phantomEncryptionKey,
                 dappEncryptionSecretKey: viewModel.linkingKeypair?.secretKey
-            ) { signature, _ in
+            ) { signature, error in
                 
                 transactionSignature = signature
-                
+                self.getWalletAndBalance()
+                print("Error(onWalletTransaction): \(String(describing: error))")
             }
             
             Button {
@@ -139,6 +163,13 @@ struct ContentView: View {
                     session: session,
                     dappSecretKey: viewModel.linkingKeypair?.secretKey
                 )
+                
+                self.walletPublicKey = nil
+                self.phantomEncryptionKey = nil
+                self.walletPublicKeyB58 = nil
+                self.phantomEncryptionKeyB58 = nil
+                //walletConnected.toggle()
+                
                 
             } label: {
                 
@@ -177,6 +208,8 @@ struct ContentView: View {
             
             let serializedTransaction = try? transaction.serialize().get()
             
+            print("Transaction:", transaction)
+            
             DispatchQueue.main.async {
                 completion(Base58.encode(serializedTransaction!.bytes))
             }
@@ -185,6 +218,21 @@ struct ContentView: View {
         
     }
     
+    func getWalletAndBalance(){
+        guard let publicKey = self.walletPublicKey else {
+            return
+        }
+        
+        let solana = Solana(router: NetworkingRouter(endpoint: .devnetSolana))
+        
+        solana.api.getAccountInfo(account: publicKey.base58EncodedString, decodedTo: AccountInfo.self) { result in
+            try? print("Account: \(result.get())")
+        }
+        solana.api.getBalance(account: publicKey.base58EncodedString){ result in
+            try? print("Balance: \(Double(result.get()) / 1000000000) SOL")
+            try? self.balance_Sol = Double(result.get()) / 1000000000
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
