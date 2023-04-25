@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/ajamaica/Solana.Swift.git",
+            url: "https://github.com/metaplex-foundation/Solana.Swift.git",
             branch: "master"
         )
     ],
