@@ -127,6 +127,40 @@ public class PhantomConnectViewModel: ObservableObject {
         
     }
     
+    public func signMessage(
+        base58Message:String?,
+        phantomEncryptionKey: PublicKey?,
+        session: String?,
+        dappSecretKey: Data?,
+        redirectURI:String?
+    ) throws {
+        guard
+            let message = base58Message,
+            let phantomEncryptionKey,
+            let session,
+            let dappSecretKey,
+            let redirectURI
+        else {
+            throw PhantomConnectError.invalidSerializedTransaction
+        }
+        
+        let (encryptedPayload, nonce) = try PhantomUtils.encryptPayload(
+            payload: [
+                "session": session,
+                "message": message
+            ],
+            phantomEncryptionPublicKey: phantomEncryptionKey,
+            dappSecretKey: dappSecretKey
+        )
+        
+        let url = try phantomConnectService.signMessage(encryptionPublicKey: encryptionPublicKey, nonce: nonce, redirect: redirectURI,payload: encryptedPayload)
+        
+#if os(iOS)
+        UIApplication.shared.open(url)
+#endif
+        
+    }
+    
     // ============================================================
     // === Private API ============================================
     // ============================================================

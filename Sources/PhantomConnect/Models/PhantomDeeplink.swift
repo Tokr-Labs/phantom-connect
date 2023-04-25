@@ -15,7 +15,7 @@ public enum PhantomDeeplink {
     case signTransaction
     case signAllTransactions
     case signAndSendTransaction(signature: String?, error: Error?)
-    case signMessage
+    case signMessage(signature: String?, error: Error?)
     case unknown
  
 }

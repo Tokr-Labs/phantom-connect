@@ -150,10 +150,27 @@ public class PhantomConnectService {
     /// Not implemented yet
     /// - SeeAlso:
     /// - https://docs.phantom.app/integrating/deeplinks-ios-and-android/provider-methods/signmessage
-    public func signMessage() throws -> URL? {
+    public func signMessage(encryptionPublicKey: PublicKey?,
+                            nonce: String,
+                            redirect: String,
+                            payload: String,
+                            version: String? = "v1") throws -> URL {
         try checkConfiguration()
-        assertionFailure("Not implemented")
-        return nil
+        
+        guard let encryptionPublicKey = encryptionPublicKey else {
+            throw PhantomConnectError.invalidEncryptionPublicKey
+        }
+        
+        guard let url = UrlUtils.format("\(phantomBase)ul/\(version!)/signMessage", parameters: [
+            "dapp_encryption_public_key": encryptionPublicKey.base58EncodedString,
+            "redirect_link": "\(PhantomConnectService.redirectUrl!)phantom_sign_and_send_transaction",
+            "nonce": nonce,
+            "payload": payload
+        ]) else {
+            throw PhantomConnectError.invalidUrl
+        }
+        
+        return url
     }
     
     // ============================================================

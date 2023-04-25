@@ -8,6 +8,13 @@
 import Foundation
 import Solana
 
+extension String {
+    func deletingPrefix(_ prefix: String) -> String {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+}
+
 public class PhantomUrlHandler {
     
     // ============================================================
@@ -142,8 +149,37 @@ public class PhantomUrlHandler {
                     signature: signature,
                     error: nil
                 )
-                                
-            default:
+        case "phantom_sign_message":
+            
+            guard let data = params["data"] as? String,
+                  let nonce = params["nonce"] as? String,
+                  let phantomEncryptionPublicKey = phantomEncryptionPublicKey,
+                  let dappSecretKey = dappSecretKey else {
+                
+                return .signMessage(signature: nil,
+                                    error: error
+                )
+            }
+            
+            let json = try PhantomUtils.decryptPayload(
+                data: data,
+                nonce: nonce,
+                phantomEncryptionPublicKey: phantomEncryptionPublicKey,
+                dappSecretKey: dappSecretKey
+            )
+            
+            guard let signature = json?["signature"] else {
+                return .signMessage(
+                    signature: nil,
+                    error: error
+                )
+            }
+            
+            return .signMessage(
+                signature: signature,
+                error: nil
+            )
+        default:
                 return .unknown
         }
         
