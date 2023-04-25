@@ -12,7 +12,7 @@
       },
       {
         "package": "Solana",
-        "repositoryURL": "https://github.com/ajamaica/Solana.Swift.git",
+        "repositoryURL": "https://github.com/metaplex-foundation/Solana.Swift.git",
         "state": {
           "branch": "master",
           "revision": "f487b256658634d7bdc178c6e6e7abf7fd905580",
